@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { FaShoppingCart, FaBars, FaTimes } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // ✅ added useNavigate
+import SignIn from './SignIn/SignIn';
 
 const Navbar = ({ cartCount = 2 }) => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const navigate = useNavigate(); // ✅ initialize navigate
+
+    const handleInputFocus = () => {
+        navigate('/products'); // ✅ redirect to /products on focus
+    };
 
     return (
         <nav className="px-6 py-4 bg-[#0f0f0f] shadow-lg rounded-b-xl w-full">
@@ -21,7 +27,8 @@ const Navbar = ({ cartCount = 2 }) => {
                         <input
                             type="text"
                             placeholder="Search products"
-                            className="w-full pl-10 pr-4 py-3 rounded-full bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-400 shadow-md transition duration-300"
+                            onFocus={handleInputFocus} // ✅ added
+                            className="w-full pl-10 pr-4 py-3 rounded-full bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 shadow-md transition duration-300"
                         />
                         <span className="absolute left-3 top-3 text-gray-400">
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -32,20 +39,12 @@ const Navbar = ({ cartCount = 2 }) => {
                 </div>
 
                 <div className="hidden md:flex items-center gap-6 text-white text-sm">
-                    <Link
-                        to="/orders"
-                        className="hover:text-teal-300 transition duration-200 hover:underline"
-                    >
-                        Returns & Orders
+                    <Link to="/orders" className="hover:text-indigo-300 transition duration-200 hover:underline">
+                        Orders
                     </Link>
-                    <Link
-                        to="/signin"
-                        className="hover:text-teal-300 transition duration-200 hover:underline"
-                    >
-                        Sign In
-                    </Link>
+                    <SignIn />
                     <Link to="/cart">
-                        <span className="relative hover:text-teal-300 transition duration-200 cursor-pointer">
+                        <span className="relative hover:text-indigo-300 transition duration-200 cursor-pointer">
                             <FaShoppingCart className="text-2xl" />
                             {cartCount > 0 && (
                                 <span className="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full px-2">
@@ -65,25 +64,13 @@ const Navbar = ({ cartCount = 2 }) => {
 
             {menuOpen && (
                 <div className="md:hidden mt-4 flex flex-col gap-4 text-white text-sm px-6">
-                    <Link
-                        to="/orders"
-                        onClick={() => setMenuOpen(false)}
-                        className="hover:text-teal-300 transition duration-200"
-                    >
+                    <Link to="/orders" onClick={() => setMenuOpen(false)} className="hover:text-teal-300 transition duration-200">
                         Returns & Orders
                     </Link>
-                    <Link
-                        to="/signin"
-                        onClick={() => setMenuOpen(false)}
-                        className="hover:text-teal-300 transition duration-200"
-                    >
+                    <Link to="/signin" onClick={() => setMenuOpen(false)} className="hover:text-teal-300 transition duration-200">
                         Sign In
                     </Link>
-                    <Link
-                        to="/cart"
-                        onClick={() => setMenuOpen(false)}
-                        className="flex items-center gap-2 hover:text-teal-300 transition duration-200"
-                    >
+                    <Link to="/cart" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 hover:text-teal-300 transition duration-200">
                         <FaShoppingCart className="text-xl" />
                         Cart ({cartCount})
                     </Link>

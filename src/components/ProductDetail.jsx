@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { DUMMY_DATA } from '../api/DummyData';
 import Breadcrumb from './Breadcrumb';
 import SimilarProducts from './SimilarProducts';
+import { toast } from 'react-toastify';
 
 const ProductDetail = () => {
     const { id } = useParams();
@@ -26,7 +27,7 @@ const ProductDetail = () => {
 
     useEffect(() => {
         if (product?.availableColors?.length) {
-            setSelectedColorIndex(0); 
+            setSelectedColorIndex(0);
             setSelectedModelIndex(0);
         }
     }, [product]);
@@ -42,8 +43,13 @@ const ProductDetail = () => {
         );
     }
 
+    const buyHandler = () => {
+        console.log(selectedModel)
+        toast.success(`${selectedModel?.modelName} - ${selectedColor?.colorName}  successfully ordered.`);
+    }
+
     const selectedColor = product?.availableColors?.[selectedColorIndex];
-    const selectedModel = selectedColor?.modelVariants?.[selectedModelIndex]; // Get the selected model variant
+    const selectedModel = selectedColor?.modelVariants?.[selectedModelIndex];
 
     return (
         <div className="bg-[#0f0f0f] min-h-screen text-white py-10 px-6 flex flex-col gap-8">
@@ -60,7 +66,7 @@ const ProductDetail = () => {
                         <button className="w-full sm:w-auto bg-yellow-400 hover:bg-yellow-300 text-black font-semibold py-3 px-6 rounded-xl shadow-lg transition duration-200">
                             Add to Cart
                         </button>
-                        <button className="w-full sm:w-auto bg-[#ff4141] hover:bg-[#e63946] text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition duration-200">
+                        <button onClick={buyHandler} className="w-full sm:w-auto bg-[#ff4141] hover:bg-[#e63946] text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition duration-200">
                             Buy Now
                         </button>
                     </div>
@@ -105,9 +111,9 @@ const ProductDetail = () => {
                             {selectedColor?.modelVariants?.map((model, index) => (
                                 <button
                                     key={index}
-                                    className={`px-6 py-2 rounded-lg border-2 text-sm font-semibold transition-all duration-200 ${selectedModelIndex === index
-                                        ? 'bg-[#ff4141] text-white'
-                                        : 'bg-[#333] text-white'
+                                    className={`px-6 py-2 bg-[#333] rounded-lg border-2 text-sm font-semibold transition-all duration-200 ${selectedModelIndex === index
+                                        ? 'border-1 border-[#fff] text-white'
+                                        : ' text-white'
                                         }`}
                                     onClick={() => setSelectedModelIndex(index)}
                                 >

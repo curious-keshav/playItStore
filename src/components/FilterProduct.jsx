@@ -33,16 +33,16 @@ const ProductFilters = ({ onFilterChange }) => {
 
                 <div>
                     <h3 className="text-white text-lg font-semibold mb-2">Sort By Price</h3>
-                    <div className="space-x-2 flex flex-wrap justify-start sm:justify-between">
+                    <div className="space-x-2 flex  justify-start ">
                         <button
                             onClick={() => handleSortChange('lowToHigh')}
-                            className={`px-4 py-2 text-sm rounded-md transition duration-200 ease-in-out ${sortOrder === 'lowToHigh' ? 'bg-teal-400 text-white' : 'bg-gray-700 text-white'} hover:bg-teal-500 hover:shadow-md focus:outline-none`}
+                            className={`px-3 py-2 text-xs rounded-md transition duration-200 ease-in-out ${sortOrder === 'lowToHigh' ? 'bg-indigo-600 text-white' : 'bg-gray-700 text-white'} hover:bg-indigo-500 hover:shadow-md focus:outline-none`}
                         >
                             Low to High
                         </button>
                         <button
                             onClick={() => handleSortChange('highToLow')}
-                            className={`px-4 py-2 text-sm rounded-md transition duration-200 ease-in-out ${sortOrder === 'highToLow' ? 'bg-teal-400 text-white' : 'bg-gray-700 text-white'} hover:bg-teal-500 hover:shadow-md focus:outline-none`}
+                            className={`px-3 py-2 text-xs rounded-md transition duration-200 ease-in-out ${sortOrder === 'highToLow' ? 'bg-indigo-600 text-white' : 'bg-gray-700 text-white'} hover:bg-indigo-500 hover:shadow-md focus:outline-none`}
                         >
                             High to Low
                         </button>
@@ -73,7 +73,7 @@ const ProductFilters = ({ onFilterChange }) => {
                             <button
                                 key={category}
                                 onClick={() => handleCategorySelection(category)}
-                                className={`text-xs sm:text-sm rounded-md transition duration-200 ease-in-out ${selectedCategories.includes(category) ? 'bg-teal-400 text-white' : 'bg-gray-700 text-white'} hover:bg-teal-500 hover:shadow-md focus:outline-none`}
+                                className={`text-xs sm:text-sm rounded-md transition duration-200 ease-in-out ${selectedCategories.includes(category) ? 'bg-teal-400 text-white' : 'bg-gray-700 text-white'} hover:bg-indigo-600 hover:shadow-md focus:outline-none`}
                             >
                                 {category}
                             </button>
