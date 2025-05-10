@@ -1,31 +1,49 @@
-import React, { useEffect, useState } from 'react'
-import { signInWithPopup } from 'firebase/auth'
+import React, { useEffect, useState } from 'react';
+import { signInWithPopup, signOut } from 'firebase/auth';
 import { auth, provider } from '../Firebase/config';
 
 const SignIn = () => {
+    const [email, setEmail] = useState(null);
 
-    const [value, setValue] = useState("");
-
-    const handleClick = () => {
-        signInWithPopup(auth, provider).then(data => {
-            setValue(data.user.email);
-            localStorage.setItem("email", data.user.email)
-        });
-    }
-    console.log(value);
-
+    // Check localStorage for email on component mount
     useEffect(() => {
-        setValue(localStorage.getItem("email"));
-    }, [])
+        const storedEmail = localStorage.getItem("email");
+        if (storedEmail) {
+            setEmail(storedEmail);
+        }
+    }, []);
+
+    // Sign in with Google
+    const handleSignIn = async () => {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const userEmail = result.user.email;
+            setEmail(userEmail);
+            localStorage.setItem("email", userEmail);
+        } catch (error) {
+            console.error("Sign in error:", error);
+        }
+    };
+
+    // Sign out
+    const handleSignOut = async () => {
+        try {
+            await signOut(auth);
+            setEmail(null);
+            localStorage.removeItem("email");
+        } catch (error) {
+            console.error("Sign out error:", error);
+        }
+    };
 
     return (
         <span
-            onClick={handleClick}
-            className="hover:text-indigo-300 text-indigo-500 font-bold transition duration-200 hover:underline bg-transparent cursor-pointer "
+            onClick={email ? handleSignOut : handleSignIn}
+            className="hover:text-indigo-300 text-indigo-500 font-bold transition duration-200 hover:underline bg-transparent cursor-pointer"
         >
-            Sign In
+            {email ? 'Sign Out' : 'Sign In'}
         </span>
-    )
-}
+    );
+};
 
-export default SignIn
+export default SignIn;

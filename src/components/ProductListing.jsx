@@ -8,12 +8,12 @@ const ProductListing = ({ searchQuery }) => {
     const [filters, setFilters] = useState({
         sortOrder: 'lowToHigh',
         priceRange: [0, 10000],
-        categories: [],
+        categories: "",
     });
+
     const [currentPage, setCurrentPage] = useState(1);
     const ITEMS_PER_PAGE = 6;
 
-    // Fetch products on component mount
     useEffect(() => {
         const getProduct = async () => {
             await fetchAllProducts().then((res) => setProductData(res));
@@ -21,28 +21,21 @@ const ProductListing = ({ searchQuery }) => {
         getProduct();
     }, []);
 
-    // Handle filter changes
     const handleFilterChange = (updatedFilters) => {
         setFilters(updatedFilters);
     };
 
-    // Filter products based on search query and filters
     const filteredData = productData.filter((product) => {
-        const isInPriceRange =
-            product.availableColors[0].price >= filters.priceRange[0] &&
-            product.availableColors[0].price <= filters.priceRange[1];
         const isInCategory =
-            filters.categories.length === 0 ||
-            product.categories.some((category) => filters.categories.includes(category));
+            filters.categories === "" || product.category === filters.categories;
 
         const isInSearchQuery =
             product?.productName?.toLowerCase().includes(searchQuery) ||
             product?.productDescription?.toLowerCase().includes(searchQuery);
 
-        return isInPriceRange && isInCategory && isInSearchQuery;
+        return isInCategory && isInSearchQuery;
     });
 
-    // Pagination logic
     const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const paginatedData = filteredData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
@@ -53,7 +46,6 @@ const ProductListing = ({ searchQuery }) => {
         }
     };
 
-    // Sorting based on price
     if (filters.sortOrder === 'lowToHigh') {
         paginatedData.sort((a, b) => a.availableColors[0].price - b.availableColors[0].price);
     } else if (filters.sortOrder === 'highToLow') {
