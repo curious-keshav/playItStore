@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaShoppingCart, FaBars, FaTimes } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import SignIn from './SignIn/SignIn';
 
-const Navbar = ({ setSearchQuery, cartCount = 2 }) => {
+const Navbar = ({ setSearchQuery, cartItems }) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
+    const [cartCount, setCartCount] = useState(cartItems?.length);
+
+    useEffect(() => {
+        setCartCount(cartItems?.length);
+    }, [cartItems])
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value.toLowerCase());
