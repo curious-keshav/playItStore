@@ -82,14 +82,18 @@ const ProductListing = ({ searchQuery }) => {
                                     <span className="text-indigo-600 text-lg font-bold mr-2">
                                         ₹{product.availableColors[0].price}
                                     </span>
-                                    <span className="text-sm text-gray-500 line-through">₹{product.originalPrice}</span>
+                                    <span className="text-sm text-gray-500 line-through">₹{(product.availableColors[0].price * 1.15).toFixed(2)}</span>
                                 </div>
 
                                 <div className="mt-4">
-                                    <Link to={`/products/${product.productId}`} className="text-sm text-indigo-400 hover:text-indigo-600">
+                                    <Link
+                                        to={`/products/${product.productId}`}
+                                        className="inline-block bg-[#818181] text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-[#6f6f6f] hover:text-white transition duration-200"
+                                    >
                                         View Details
                                     </Link>
                                 </div>
+
                             </div>
                         ))}
                     </div>
