@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import { FaShoppingCart, FaBars, FaTimes } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom'; // ✅ added useNavigate
+import { Link, useNavigate } from 'react-router-dom';
 import SignIn from './SignIn/SignIn';
 
-const Navbar = ({ cartCount = 2 }) => {
+const Navbar = ({ setSearchQuery, cartCount = 2 }) => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const navigate = useNavigate(); // ✅ initialize navigate
+    const navigate = useNavigate();
+
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value.toLowerCase());
+    };
 
     const handleInputFocus = () => {
-        navigate('/products'); // ✅ redirect to /products on focus
+        navigate('/products');
     };
 
     return (
@@ -27,7 +31,8 @@ const Navbar = ({ cartCount = 2 }) => {
                         <input
                             type="text"
                             placeholder="Search products"
-                            onFocus={handleInputFocus} // ✅ added
+                            onFocus={handleInputFocus}
+                            onChange={handleSearchChange}
                             className="w-full pl-10 pr-4 py-3 rounded-full bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 shadow-md transition duration-300"
                         />
                         <span className="absolute left-3 top-3 text-gray-400">

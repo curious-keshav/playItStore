@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { signInWithPopup } from 'firebase/auth'
-import { auth, provider } from './config';
+import { auth, provider } from '../Firebase/config';
 
 const SignIn = () => {
 
